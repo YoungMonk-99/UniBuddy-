@@ -1,0 +1,849 @@
+From abe18f218eaaecec2108bf3cf452f3754a2467fb Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 28 Oct 2026 09:58:33 +0000
+Subject: [PATCH] Retheme frontend to yellow palette for light and dark modes
+
+---
+ index.html                         |   1 +
+ public/favicon.svg                 |   6 +-
+ src/components/AuthModals.css      |   2 +-
+ src/components/Badge.css           |   8 +-
+ src/components/BottomTabBar.css    |   2 +-
+ src/components/CampusPass.css      |  22 ++---
+ src/components/Logo.css            |   2 +-
+ src/components/Navbar.css          |   6 +-
+ src/data/stories.js                |  12 +--
+ src/lib/stories.js                 |   2 +-
+ src/pages/CampusMap/CampusMap.css  |  12 +--
+ src/pages/Home/Home.css            |  17 ++--
+ src/pages/Mentors/Mentors.css      |  10 +--
+ src/pages/Messages/Messages.css    |   6 +-
+ src/pages/Senior/Senior.css        |   2 +-
+ src/pages/Senior/SeniorProfile.css |   2 +-
+ src/pages/Stories/Stories.css      |  32 +++----
+ src/styles/global.css              |   2 +-
+ src/styles/network.css             |   1 +
+ src/styles/tokens.css              | 140 +++++++++++++++--------------
+ 20 files changed, 149 insertions(+), 138 deletions(-)
+
+diff --git a/index.html b/index.html
+index 79bb9d8..0ae2f59 100644
+--- a/index.html
++++ b/index.html
+@@ -5,6 +5,7 @@
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>UniBuddy — Campus Mentorship, Mapped and Real</title>
+     <meta name="description" content="Campus mentorship platform for Indian college students. Book verified seniors, explore your campus map, and watch stories from your college." />
++    <meta name="theme-color" content="#FFC400" />
+     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+     <link rel="preconnect" href="https://fonts.googleapis.com" />
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+diff --git a/public/favicon.svg b/public/favicon.svg
+index 3982b4f..a74896f 100644
+--- a/public/favicon.svg
++++ b/public/favicon.svg
+@@ -1,9 +1,9 @@
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+   <defs>
+     <linearGradient id="brand" x1="0%" y1="0%" x2="100%" y2="100%">
+-      <stop offset="0%" stop-color="#5B4CFF" />
+-      <stop offset="60%" stop-color="#FF3D77" />
+-      <stop offset="100%" stop-color="#FFB400" />
++      <stop offset="0%" stop-color="#FFE066" />
++      <stop offset="60%" stop-color="#FFC400" />
++      <stop offset="100%" stop-color="#FF9F1C" />
+     </linearGradient>
+   </defs>
+   <circle cx="16" cy="16" r="14" fill="url(#brand)" />
+diff --git a/src/components/AuthModals.css b/src/components/AuthModals.css
+index a537f81..9a703d1 100644
+--- a/src/components/AuthModals.css
++++ b/src/components/AuthModals.css
+@@ -253,7 +253,7 @@
+ .auth-switch-btn {
+   background: transparent;
+   border: none;
+-  color: var(--primary);
++  color: var(--primary-text);
+   font-weight: 600;
+   cursor: pointer;
+   padding: 0;
+diff --git a/src/components/Badge.css b/src/components/Badge.css
+index d3f6b53..e2dc166 100644
+--- a/src/components/Badge.css
++++ b/src/components/Badge.css
+@@ -29,15 +29,15 @@
+ 
+ /* Glass variant (e.g. on Campus Pass) */
+ .badge-glass {
+-  background: rgba(255, 255, 255, 0.22);
+-  color: #FFFFFF;
+-  border: 1px solid rgba(255, 255, 255, 0.4);
++  background: rgba(28, 23, 0, 0.1);
++  color: var(--on-primary);
++  border: 1px solid rgba(28, 23, 0, 0.28);
+   backdrop-filter: blur(12px);
+   -webkit-backdrop-filter: blur(12px);
+ }
+ 
+ .badge-glass .badge-icon {
+-  color: #FFFFFF;
++  color: var(--on-primary);
+ }
+ 
+ /* Coming Soon variant */
+diff --git a/src/components/BottomTabBar.css b/src/components/BottomTabBar.css
+index 9906839..02a3a99 100644
+--- a/src/components/BottomTabBar.css
++++ b/src/components/BottomTabBar.css
+@@ -39,7 +39,7 @@
+ }
+ 
+ .bottom-tab-icon { position: relative; }
+-.bottom-tab-count { position: absolute; top: -6px; right: -10px; display: flex; align-items: center; justify-content: center; min-width: 15px; height: 15px; padding: 0 3px; font-size: 8px; border-radius: var(--radius-pill); background: var(--primary); color: white; border: 2px solid var(--surface); }
++.bottom-tab-count { position: absolute; top: -6px; right: -10px; display: flex; align-items: center; justify-content: center; min-width: 15px; height: 15px; padding: 0 3px; font-size: 8px; border-radius: var(--radius-pill); background: var(--primary); color: var(--on-primary); border: 2px solid var(--surface); }
+ 
+ .bottom-tab-item:active {
+   transform: scale(0.95);
+diff --git a/src/components/CampusPass.css b/src/components/CampusPass.css
+index 2ab1f2b..a1c84a8 100644
+--- a/src/components/CampusPass.css
++++ b/src/components/CampusPass.css
+@@ -14,8 +14,8 @@
+   background: var(--gradient-brand);
+   border-radius: var(--radius-xl);
+   padding: 28px 28px 24px;
+-  color: #FFFFFF;
+-  box-shadow: 0 20px 50px -10px rgba(91, 76, 255, 0.4), 0 10px 25px -5px rgba(255, 61, 119, 0.3);
++  color: var(--on-primary);
++  box-shadow: 0 20px 50px -10px rgba(255, 176, 0, 0.45), 0 10px 25px -5px rgba(255, 122, 0, 0.3);
+   transform: rotate(-3deg);
+   transition: box-shadow var(--duration-normal) ease;
+   overflow: visible;
+@@ -32,7 +32,7 @@
+ }
+ 
+ .campus-pass-card:hover {
+-  box-shadow: 0 26px 60px -8px rgba(91, 76, 255, 0.5), 0 14px 30px -4px rgba(255, 180, 0, 0.35);
++  box-shadow: 0 26px 60px -8px rgba(255, 176, 0, 0.55), 0 14px 30px -4px rgba(255, 122, 0, 0.35);
+ }
+ 
+ /* Glass highlight reflection */
+@@ -77,15 +77,15 @@
+   font-size: 11px;
+   font-weight: 700;
+   letter-spacing: 0.1em;
+-  color: rgba(255, 255, 255, 0.9);
++  color: rgba(28, 23, 0, 0.85);
+ }
+ 
+ .brand-dot {
+   width: 8px;
+   height: 8px;
+   border-radius: 50%;
+-  background: #FFFFFF;
+-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
++  background: #1C1700;
++  box-shadow: 0 0 8px rgba(28, 23, 0, 0.35);
+ }
+ 
+ .campus-pass-holder-section {
+@@ -99,7 +99,7 @@
+   font-weight: 600;
+   text-transform: uppercase;
+   letter-spacing: 0.08em;
+-  color: rgba(255, 255, 255, 0.75);
++  color: rgba(28, 23, 0, 0.7);
+ }
+ 
+ .campus-pass-holder-name {
+@@ -107,14 +107,14 @@
+   font-weight: 800;
+   font-size: 26px;
+   letter-spacing: -0.02em;
+-  color: #FFFFFF;
++  color: var(--on-primary);
+   margin: 2px 0 0;
+   line-height: 1.1;
+ }
+ 
+ .campus-pass-divider {
+   height: 1px;
+-  background: rgba(255, 255, 255, 0.25);
++  background: rgba(28, 23, 0, 0.18);
+   margin: 6px 0;
+   position: relative;
+   z-index: 1;
+@@ -138,14 +138,14 @@
+   font-weight: 600;
+   text-transform: uppercase;
+   letter-spacing: 0.06em;
+-  color: rgba(255, 255, 255, 0.7);
++  color: rgba(28, 23, 0, 0.65);
+ }
+ 
+ .cell-value {
+   font-family: var(--font-body);
+   font-size: 13.5px;
+   font-weight: 700;
+-  color: #FFFFFF;
++  color: var(--on-primary);
+   line-height: 1.25;
+ }
+ 
+diff --git a/src/components/Logo.css b/src/components/Logo.css
+index 529df87..f96bc40 100644
+--- a/src/components/Logo.css
++++ b/src/components/Logo.css
+@@ -13,7 +13,7 @@
+   border-radius: 50%;
+   background: var(--gradient-brand);
+   flex-shrink: 0;
+-  box-shadow: 0 2px 8px rgba(91, 76, 255, 0.25);
++  box-shadow: 0 2px 8px rgba(255, 176, 0, 0.4);
+ }
+ 
+ .unibuddy-logo.small .logo-mark {
+diff --git a/src/components/Navbar.css b/src/components/Navbar.css
+index 11ddb76..415e013 100644
+--- a/src/components/Navbar.css
++++ b/src/components/Navbar.css
+@@ -79,7 +79,7 @@
+   transition: all var(--duration-fast) ease;
+ }
+ 
+-.nav-unread-badge { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 16px; height: 16px; padding: 0 4px; font-size: 9px; border-radius: var(--radius-pill); }
++.nav-unread-badge { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: var(--on-primary); min-width: 16px; height: 16px; padding: 0 4px; font-size: 9px; border-radius: var(--radius-pill); }
+ .navbar-tabs ~ .navbar-actions .theme-toggle-label { display: none; }
+ .navbar-tabs ~ .navbar-actions .theme-toggle-btn { width: 40px; padding: 0; }
+ 
+@@ -119,7 +119,7 @@
+   align-items: center;
+   justify-content: center;
+   gap: 8px;
+-  box-shadow: 0 4px 16px rgba(91, 76, 255, 0.25);
++  box-shadow: 0 4px 16px rgba(255, 176, 0, 0.35);
+   transition: background-color var(--duration-fast) ease, transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+   user-select: none;
+ }
+@@ -127,7 +127,7 @@
+ .btn-primary:hover {
+   background-color: var(--primary-hover);
+   transform: translateY(-2px);
+-  box-shadow: 0 6px 20px rgba(91, 76, 255, 0.35);
++  box-shadow: 0 6px 20px rgba(255, 176, 0, 0.45);
+ }
+ 
+ .btn-primary:active {
+diff --git a/src/data/stories.js b/src/data/stories.js
+index 9ab9a05..7255b6a 100644
+--- a/src/data/stories.js
++++ b/src/data/stories.js
+@@ -3,7 +3,7 @@ export const STORIES = [
+     id: 'story-1',
+     type: 'image',
+     src: 'https://picsum.photos/seed/campusfest2026/720/1280',
+-    poster: 'linear-gradient(135deg, #5B4CFF, #FF3D77)',
++    poster: 'linear-gradient(135deg, #B45309, #F59E0B)',
+     authorName: 'Aarav Mehta',
+     authorInitials: 'AM',
+     authorYear: '3rd yr',
+@@ -20,7 +20,7 @@ export const STORIES = [
+     id: 'story-2',
+     type: 'video',
+     src: 'https://vjs.zencdn.net/v/oceans.mp4',
+-    poster: 'linear-gradient(135deg, #FF6A3D, #FFB400)',
++    poster: 'linear-gradient(135deg, #C2410C, #F59E0B)',
+     authorName: 'Priya Sharma',
+     authorInitials: 'PS',
+     authorYear: '4th yr',
+@@ -54,7 +54,7 @@ export const STORIES = [
+     id: 'story-4',
+     type: 'video',
+     src: 'https://www.w3schools.com/html/mov_bbb.mp4',
+-    poster: 'linear-gradient(135deg, #FF3D77, #FFB400)',
++    poster: 'linear-gradient(135deg, #BE185D, #F59E0B)',
+     authorName: 'Vikram Nair',
+     authorInitials: 'VN',
+     authorYear: '3rd yr',
+@@ -71,7 +71,7 @@ export const STORIES = [
+     id: 'story-5',
+     type: 'image',
+     src: 'https://picsum.photos/seed/examstressnight/720/1280',
+-    poster: 'linear-gradient(135deg, #9B51E0, #FF3D77)',
++    poster: 'linear-gradient(135deg, #B4237A, #FF3D77)',
+     authorName: 'Meera Joshi',
+     authorInitials: 'MJ',
+     authorYear: '4th yr',
+@@ -88,7 +88,7 @@ export const STORIES = [
+     id: 'story-6',
+     type: 'video',
+     src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+-    poster: 'linear-gradient(135deg, #FF6A3D, #5B4CFF)',
++    poster: 'linear-gradient(135deg, #C2410C, #8F5A00)',
+     authorName: 'Ananya Iyer',
+     authorInitials: 'AI',
+     authorYear: '4th yr',
+@@ -121,7 +121,7 @@ export const STORIES = [
+     id: 'story-8',
+     type: 'video',
+     src: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+-    poster: 'linear-gradient(135deg, #5B4CFF, #12B76A)',
++    poster: 'linear-gradient(135deg, #8F5A00, #12B76A)',
+     authorName: 'Farhan Sheikh',
+     authorInitials: 'FS',
+     authorYear: '2nd yr',
+diff --git a/src/lib/stories.js b/src/lib/stories.js
+index c0d0280..be3783b 100644
+--- a/src/lib/stories.js
++++ b/src/lib/stories.js
+@@ -54,7 +54,7 @@ export async function savePostedStory({ media, caption, user }) {
+     authorYear: user.year,
+     collegeName: user.college || DEFAULT_COLLEGE.name,
+     collegeKey: collegeKey(user.college),
+-    poster: user.gradient || 'linear-gradient(135deg, #5B4CFF, #FF3D77)',
++    poster: user.gradient || 'linear-gradient(135deg, #B45309, #F59E0B)',
+     createdAt: Date.now(),
+     likes: 0,
+     comments: [],
+diff --git a/src/pages/CampusMap/CampusMap.css b/src/pages/CampusMap/CampusMap.css
+index 2a3269d..3e424c1 100644
+--- a/src/pages/CampusMap/CampusMap.css
++++ b/src/pages/CampusMap/CampusMap.css
+@@ -71,7 +71,7 @@
+ 
+ .leaflet-control-zoom a:hover {
+   background-color: var(--surface-2) !important;
+-  color: var(--primary) !important;
++  color: var(--primary-text) !important;
+ }
+ 
+ .leaflet-control-zoom a:last-child {
+@@ -100,7 +100,7 @@
+ 
+ .map-recenter-control:hover {
+   background-color: var(--surface-2);
+-  color: var(--primary);
++  color: var(--primary-text);
+   transform: scale(1.05);
+ }
+ 
+@@ -133,11 +133,11 @@
+   height: 36px;
+   border-radius: 50%;
+   background: var(--gradient-brand);
+-  color: #FFFFFF;
++  color: var(--on-primary);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+-  box-shadow: 0 4px 16px rgba(91, 76, 255, 0.45);
++  box-shadow: 0 4px 16px rgba(255, 176, 0, 0.5);
+   border: 2px solid #FFFFFF;
+   position: relative;
+   z-index: 2;
+@@ -150,7 +150,7 @@
+   width: 52px;
+   height: 52px;
+   border-radius: 50%;
+-  background: rgba(91, 76, 255, 0.25);
++  background: rgba(255, 176, 0, 0.28);
+   border: 1.5px solid var(--primary);
+   animation: mapPulse 2s infinite ease-out;
+   z-index: 1;
+@@ -508,7 +508,7 @@
+ }
+ 
+ .place-card:focus-visible {
+-  outline: 3px solid var(--primary);
++  outline: 3px solid var(--focus-ring);
+ }
+ 
+ .place-card-top {
+diff --git a/src/pages/Home/Home.css b/src/pages/Home/Home.css
+index dcb0ff1..795b527 100644
+--- a/src/pages/Home/Home.css
++++ b/src/pages/Home/Home.css
+@@ -53,7 +53,7 @@
+   right: 15%;
+   width: 420px;
+   height: 420px;
+-  background: var(--like);
++  background: var(--accent);
+ }
+ 
+ .glow-mango {
+@@ -437,6 +437,7 @@
+   border-radius: var(--radius-sm);
+   background: var(--avatar-indigo);
+   color: #fff;
++  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+   font-family: var(--font-display);
+   font-weight: 700;
+   display: flex;
+@@ -556,8 +557,8 @@
+   width: 28px;
+   height: 28px;
+   background: var(--gradient-brand);
+-  color: #fff;
+-  box-shadow: 0 4px 12px rgba(91, 76, 255, 0.4);
++  color: var(--on-primary);
++  box-shadow: 0 4px 12px rgba(255, 176, 0, 0.5);
+ }
+ 
+ .pin-pulse {
+@@ -626,18 +627,18 @@
+ .card-back-2 {
+   transform: scale(0.88) translateY(16px);
+   opacity: 0.4;
+-  background: #33204d;
++  background: #3d2c05;
+ }
+ 
+ .card-back-1 {
+   transform: scale(0.94) translateY(8px);
+   opacity: 0.7;
+-  background: #5b2847;
++  background: #6b4a06;
+ }
+ 
+ .card-front {
+-  background: linear-gradient(160deg, #FF6A3D, #FF3D77);
+-  color: #fff;
++  background: linear-gradient(160deg, #FFD43B, #FF9F1C);
++  color: var(--on-primary);
+   padding: 14px;
+   display: flex;
+   flex-direction: column;
+@@ -775,7 +776,7 @@
+ }
+ 
+ .role-senior {
+-  background: linear-gradient(135deg, rgba(91, 76, 255, 0.05), rgba(255, 61, 119, 0.05));
++  background: linear-gradient(135deg, rgba(255, 196, 0, 0.10), rgba(255, 122, 0, 0.05));
+   border-color: var(--primary-soft);
+ }
+ 
+diff --git a/src/pages/Mentors/Mentors.css b/src/pages/Mentors/Mentors.css
+index cac7649..c0d531d 100644
+--- a/src/pages/Mentors/Mentors.css
++++ b/src/pages/Mentors/Mentors.css
+@@ -283,7 +283,7 @@
+ }
+ 
+ .mentor-feed-card:focus-visible {
+-  outline: 3px solid var(--primary);
++  outline: 3px solid var(--focus-ring);
+ }
+ 
+ .mentor-card-top {
+@@ -614,12 +614,12 @@
+   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+ }
+ 
+-.tile-1 { background: linear-gradient(135deg, #5B4CFF, #8B80FF); }
+-.tile-2 { background: linear-gradient(135deg, #FF6A3D, #FFB400); }
++.tile-1 { background: linear-gradient(135deg, #8F5A00, #C98500); }
++.tile-2 { background: linear-gradient(135deg, #C2410C, #E8730C); }
+ .tile-3 { background: linear-gradient(135deg, #FF3D77, #FF8A5C); }
+ .tile-4 { background: linear-gradient(135deg, #12B76A, #00B8D9); }
+-.tile-5 { background: linear-gradient(135deg, #9B51E0, #FF3D77); }
+-.tile-6 { background: linear-gradient(135deg, #2E90FA, #5B4CFF); }
++.tile-5 { background: linear-gradient(135deg, #B4237A, #FF3D77); }
++.tile-6 { background: linear-gradient(135deg, #2E90FA, #00B8D9); }
+ 
+ .drawer-skills-list {
+   display: flex;
+diff --git a/src/pages/Messages/Messages.css b/src/pages/Messages/Messages.css
+index b300c6f..768bef2 100644
+--- a/src/pages/Messages/Messages.css
++++ b/src/pages/Messages/Messages.css
+@@ -168,7 +168,7 @@
+   padding: 0 4px;
+   font-size: 9px;
+   background: var(--primary);
+-  color: white;
++  color: var(--on-primary);
+   border-radius: 50%;
+ }
+ .inbox-footer {
+@@ -392,7 +392,7 @@
+ .is-own .chat-bubble {
+   border: 0;
+   background: var(--primary);
+-  color: #fff;
++  color: var(--on-primary);
+   border-radius: 18px 18px 5px 18px;
+ }
+ .chat-message-meta {
+@@ -483,7 +483,7 @@
+   border: 0;
+   border-radius: 13px;
+   background: var(--primary);
+-  color: white;
++  color: var(--on-primary);
+   flex-shrink: 0;
+ }
+ .chat-send-btn:disabled {
+diff --git a/src/pages/Senior/Senior.css b/src/pages/Senior/Senior.css
+index d787854..db378cf 100644
+--- a/src/pages/Senior/Senior.css
++++ b/src/pages/Senior/Senior.css
+@@ -137,7 +137,7 @@
+   width: 88px;
+   height: 88px;
+   font-size: 32px;
+-  box-shadow: 0 0 0 10px var(--primary-soft), 0 12px 40px rgba(91,76,255,.18);
++  box-shadow: 0 0 0 10px var(--primary-soft), 0 12px 40px rgba(255,176,0,.22);
+ }
+ .orbit-center > span:last-child {
+   color: var(--primary-text);
+diff --git a/src/pages/Senior/SeniorProfile.css b/src/pages/Senior/SeniorProfile.css
+index a5f265f..dad87ba 100644
+--- a/src/pages/Senior/SeniorProfile.css
++++ b/src/pages/Senior/SeniorProfile.css
+@@ -116,7 +116,7 @@
+   background: var(--primary);
+ }
+ .profile-switch.active span {
+-  background: white;
++  background: var(--on-primary);
+   transform: translateX(15px);
+ }
+ .profile-form-footer {
+diff --git a/src/pages/Stories/Stories.css b/src/pages/Stories/Stories.css
+index 3632ed1..456616d 100644
+--- a/src/pages/Stories/Stories.css
++++ b/src/pages/Stories/Stories.css
+@@ -44,7 +44,7 @@
+   left: 20%;
+   width: 450px;
+   height: 450px;
+-  background: #5B4CFF;
++  background: #FFC400;
+ }
+ 
+ .glow-stories-pink {
+@@ -52,7 +52,7 @@
+   right: 20%;
+   width: 420px;
+   height: 420px;
+-  background: #FF3D77;
++  background: #FF8A00;
+ }
+ 
+ .stories-viewport {
+@@ -99,7 +99,7 @@
+ }
+ 
+ .story-create-btn:focus-visible {
+-  outline: 3px solid var(--primary);
++  outline: 3px solid var(--focus-ring);
+   outline-offset: 5px;
+ }
+ 
+@@ -280,9 +280,9 @@
+ 
+ .next-pill {
+   right: 24px;
+-  background-color: rgba(91, 76, 255, 0.85);
+-  color: #FFFFFF;
+-  border: 2px solid #5B4CFF;
++  background-color: rgba(255, 196, 0, 0.92);
++  color: #1C1700;
++  border: 2px solid #FFC400;
+   transform: rotate(12deg);
+ }
+ 
+@@ -592,8 +592,8 @@
+   width: 72px;
+   height: 72px;
+   border-radius: 50%;
+-  background: rgba(106, 92, 255, 0.15);
+-  border: 1px solid rgba(106, 92, 255, 0.3);
++  background: rgba(255, 196, 0, 0.15);
++  border: 1px solid rgba(255, 196, 0, 0.35);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+@@ -707,7 +707,7 @@
+   height: 48px;
+   border-radius: 50%;
+   background-color: var(--primary);
+-  color: #FFFFFF;
++  color: var(--on-primary);
+   border: none;
+   display: flex;
+   align-items: center;
+@@ -872,24 +872,24 @@
+ 
+ /* Light mode: make story navigation arrows visible */
+ .theme-light .nav-arrow-btn {
+-  background: rgba(91, 76, 255, 0.09);
+-  border: 1px solid rgba(91, 76, 255, 0.28);
+-  color: #5546D8;
++  background: rgba(255, 196, 0, 0.18);
++  border: 1px solid rgba(179, 125, 0, 0.45);
++  color: #7A5200;
+ 
+-  box-shadow: 0 3px 10px rgba(35, 25, 80, 0.08);
++  box-shadow: 0 3px 10px rgba(60, 40, 0, 0.1);
+ }
+ 
+-/* Hover: purple brand accent */
++/* Hover: yellow brand accent */
+ .theme-light .nav-arrow-btn:hover {
+   background: var(--primary);
+   border-color: var(--primary);
+-  color: #FFFFFF;
++  color: var(--on-primary);
+ 
+   transform: scale(1.05);
+ }
+ 
+ /* Keyboard accessibility */
+ .theme-light .nav-arrow-btn:focus-visible {
+-  outline: 2px solid var(--primary);
++  outline: 2px solid var(--focus-ring);
+   outline-offset: 3px;
+ }
+diff --git a/src/styles/global.css b/src/styles/global.css
+index 97b5b09..eb0f08e 100644
+--- a/src/styles/global.css
++++ b/src/styles/global.css
+@@ -43,7 +43,7 @@ input, select, textarea {
+ }
+ 
+ :focus-visible {
+-  outline: 3px solid var(--primary);
++  outline: 3px solid var(--focus-ring);
+   outline-offset: 2px;
+ }
+ 
+diff --git a/src/styles/network.css b/src/styles/network.css
+index 119ccdc..7143a73 100644
+--- a/src/styles/network.css
++++ b/src/styles/network.css
+@@ -113,6 +113,7 @@
+   flex-shrink: 0;
+   border-radius: 16px;
+   color: #fff;
++  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+   font-family: var(--font-display);
+   font-weight: 700;
+   letter-spacing: -.02em;
+diff --git a/src/styles/tokens.css b/src/styles/tokens.css
+index 6db0678..fea35f2 100644
+--- a/src/styles/tokens.css
++++ b/src/styles/tokens.css
+@@ -3,27 +3,28 @@
+   color-scheme: light;
+ 
+   /* Surfaces & Base */
+-  --bg: #FBFAF7;
++  --bg: #FFFCF0;
+   --surface: #FFFFFF;
+-  --surface-2: #F3F1EC;
+-  --line: rgba(22, 18, 15, 0.08);
+-  --line-strong: rgba(22, 18, 15, 0.16);
++  --surface-2: #FBF3D9;
++  --line: rgba(40, 28, 0, 0.09);
++  --line-strong: rgba(40, 28, 0, 0.18);
+ 
+   /* Typography Colors */
+-  --text: #16120F;
+-  --text-2: #5E5850;
+-  --text-3: #6F685E;
++  --text: #1C1700;
++  --text-2: #5F5638;
++  --text-3: #6E6444;
+ 
+   /* Primary Brand */
+-  --primary: #5B4CFF;
+-  --primary-hover: #4636E0;
+-  --primary-soft: #ECEAFF;
+-  --primary-text: #4A3CE6;
+-  --on-primary: #FFFFFF;
++  --primary: #FFC400;
++  --primary-hover: #E6AE00;
++  --primary-soft: #FFF1BF;
++  --primary-text: #8A5F00;
++  --on-primary: #1C1700;
++  --focus-ring: #B37D00;
+ 
+   /* Accents & Status */
+-  --accent: #FF6A3D;
+-  --on-accent: #16120F;
++  --accent: #F26B0F;
++  --on-accent: #1C1700;
+   --like: #FF3D77;
+   --success: #12B76A;
+   --success-soft: #DDF7EA;
+@@ -31,36 +32,36 @@
+   --danger: #E5484D;
+   --danger-text: #C4313A;
+   --star-gold: #FFB400;
+-  --star-empty: rgba(22, 18, 15, 0.14);
++  --star-empty: rgba(40, 28, 0, 0.14);
+ 
+   /* Skill Tint Pairs (bg / fg) */
+-  --tint-indigo-bg: #ECEAFF;
+-  --tint-indigo-fg: #4A3CE6;
++  --tint-indigo-bg: #FFF1BF;
++  --tint-indigo-fg: #7A5200;
+   --tint-pink-bg: #FFE8EF;
+   --tint-pink-fg: #B3123F;
+-  --tint-mango-bg: #FFF1CC;
+-  --tint-mango-fg: #7A4B00;
++  --tint-mango-bg: #FFE7C2;
++  --tint-mango-fg: #8A3F00;
+   --tint-mint-bg: #DDF7EA;
+   --tint-mint-fg: #0B6B45;
+   --tint-sky-bg: #E1F0FF;
+   --tint-sky-fg: #0B5CAD;
+ 
+   /* Gradients */
+-  --gradient-brand: linear-gradient(135deg, #5B4CFF 0%, #FF3D77 60%, #FFB400 100%);
+-  --gradient-text: linear-gradient(90deg, #5B4CFF, #FF3D77);
++  --gradient-brand: linear-gradient(135deg, #FFE066 0%, #FFC400 55%, #FF9F1C 100%);
++  --gradient-text: linear-gradient(90deg, #9A6200, #D17F00);
+ 
+   /* Avatar Gradients */
+-  --avatar-indigo: linear-gradient(135deg, #5B4CFF, #8B80FF);
++  --avatar-indigo: linear-gradient(135deg, #8F5A00, #C98500);
+   --avatar-gulabi: linear-gradient(135deg, #FF3D77, #FF8A5C);
+-  --avatar-mango: linear-gradient(135deg, #FFB400, #FF6A3D);
++  --avatar-mango: linear-gradient(135deg, #C2410C, #E8730C);
+   --avatar-matcha: linear-gradient(135deg, #12B76A, #00B8D9);
+-  --avatar-sky: linear-gradient(135deg, #2E90FA, #5B4CFF);
+-  --avatar-plum: linear-gradient(135deg, #9B51E0, #FF3D77);
++  --avatar-sky: linear-gradient(135deg, #2E90FA, #00B8D9);
++  --avatar-plum: linear-gradient(135deg, #B4237A, #FF3D77);
+ 
+   /* Shadows & Glass */
+-  --shadow-card: 0 1px 2px rgba(22, 18, 15, 0.06), 0 8px 24px rgba(22, 18, 15, 0.06);
+-  --shadow-raised: 0 12px 40px rgba(22, 18, 15, 0.12);
+-  --glass-bg: rgba(255, 255, 255, 0.72);
++  --shadow-card: 0 1px 2px rgba(40, 28, 0, 0.06), 0 8px 24px rgba(40, 28, 0, 0.07);
++  --shadow-raised: 0 12px 40px rgba(40, 28, 0, 0.14);
++  --glass-bg: rgba(255, 252, 240, 0.72);
+   --glass-blur: blur(20px) saturate(180%);
+ 
+   /* Radii */
+@@ -91,68 +92,75 @@
+ @media (prefers-color-scheme: dark) {
+   :root:not(.theme-light) {
+     color-scheme: dark;
+-    --bg: #0E0D12;
+-    --surface: #17161D;
+-    --surface-2: #211F29;
+-    --line: rgba(255, 255, 255, 0.08);
+-    --line-strong: rgba(255, 255, 255, 0.16);
+-    --text: #F6F4F0;
+-    --text-2: #B4AEA4;
+-    --text-3: #8F897F;
+-    --primary: #6A5CFF;
+-    --primary-hover: #7A6EFF;
+-    --primary-soft: rgba(106, 92, 255, 0.18);
+-    --primary-text: #A59CFF;
+-    --on-primary: #FFFFFF;
++    --bg: #0F0D05;
++    --surface: #191608;
++    --surface-2: #242010;
++    --line: rgba(255, 230, 140, 0.09);
++    --line-strong: rgba(255, 230, 140, 0.18);
++    --text: #FBF7E8;
++    --text-2: #C2B994;
++    --text-3: #968D6B;
++    --primary: #FFC926;
++    --primary-hover: #FFD84D;
++    --primary-soft: rgba(255, 201, 38, 0.16);
++    --primary-text: #FFD54A;
++    --on-primary: #1C1700;
++    --focus-ring: #FFC926;
+     --star-empty: rgba(255, 255, 255, 0.18);
+ 
++    --gradient-text: linear-gradient(90deg, #FFD54A, #FF9F1C);
++
+     /* Dark Skill Tint Pairs */
+-    --tint-indigo-bg: rgba(106, 92, 255, 0.18);
+-    --tint-indigo-fg: #A59CFF;
++    --tint-indigo-bg: rgba(255, 196, 0, 0.16);
++    --tint-indigo-fg: #FFD54A;
+     --tint-pink-bg: rgba(255, 61, 119, 0.18);
+     --tint-pink-fg: #FF80A6;
+-    --tint-mango-bg: rgba(255, 180, 0, 0.18);
+-    --tint-mango-fg: #FFD166;
++    --tint-mango-bg: rgba(255, 138, 0, 0.18);
++    --tint-mango-fg: #FFB366;
+     --tint-mint-bg: rgba(18, 183, 106, 0.18);
+     --tint-mint-fg: #6EE7B7;
+     --tint-sky-bg: rgba(46, 144, 250, 0.18);
+     --tint-sky-fg: #93C5FD;
+ 
+-    --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 40px rgba(0, 0, 0, 0.5);
++    --shadow-card: 0 1px 0 rgba(255, 240, 180, 0.04) inset, 0 12px 40px rgba(0, 0, 0, 0.5);
+     --shadow-raised: 0 16px 48px rgba(0, 0, 0, 0.6);
+-    --glass-bg: rgba(20, 19, 26, 0.72);
++    --glass-bg: rgba(25, 22, 8, 0.72);
+   }
+ }
+ 
+ .theme-dark {
+   color-scheme: dark;
+-  --bg: #0E0D12;
+-  --surface: #17161D;
+-  --surface-2: #211F29;
+-  --line: rgba(255, 255, 255, 0.08);
+-  --line-strong: rgba(255, 255, 255, 0.16);
+-  --text: #F6F4F0;
+-  --text-2: #B4AEA4;
+-  --text-3: #8F897F;
+-  --primary: #6A5CFF;
+-  --primary-hover: #7A6EFF;
+-  --primary-soft: rgba(106, 92, 255, 0.18);
+-  --primary-text: #A59CFF;
+-  --on-primary: #FFFFFF;
++  --bg: #0F0D05;
++  --surface: #191608;
++  --surface-2: #242010;
++  --line: rgba(255, 230, 140, 0.09);
++  --line-strong: rgba(255, 230, 140, 0.18);
++  --text: #FBF7E8;
++  --text-2: #C2B994;
++  --text-3: #968D6B;
++  --primary: #FFC926;
++  --primary-hover: #FFD84D;
++  --primary-soft: rgba(255, 201, 38, 0.16);
++  --primary-text: #FFD54A;
++  --on-primary: #1C1700;
++  --focus-ring: #FFC926;
+   --star-empty: rgba(255, 255, 255, 0.18);
+ 
+-  --tint-indigo-bg: rgba(106, 92, 255, 0.18);
+-  --tint-indigo-fg: #A59CFF;
++  --gradient-text: linear-gradient(90deg, #FFD54A, #FF9F1C);
++
++  /* Dark Skill Tint Pairs */
++  --tint-indigo-bg: rgba(255, 196, 0, 0.16);
++  --tint-indigo-fg: #FFD54A;
+   --tint-pink-bg: rgba(255, 61, 119, 0.18);
+   --tint-pink-fg: #FF80A6;
+-  --tint-mango-bg: rgba(255, 180, 0, 0.18);
+-  --tint-mango-fg: #FFD166;
++  --tint-mango-bg: rgba(255, 138, 0, 0.18);
++  --tint-mango-fg: #FFB366;
+   --tint-mint-bg: rgba(18, 183, 106, 0.18);
+   --tint-mint-fg: #6EE7B7;
+   --tint-sky-bg: rgba(46, 144, 250, 0.18);
+   --tint-sky-fg: #93C5FD;
+ 
+-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 40px rgba(0, 0, 0, 0.5);
++  --shadow-card: 0 1px 0 rgba(255, 240, 180, 0.04) inset, 0 12px 40px rgba(0, 0, 0, 0.5);
+   --shadow-raised: 0 16px 48px rgba(0, 0, 0, 0.6);
+-  --glass-bg: rgba(20, 19, 26, 0.72);
++  --glass-bg: rgba(25, 22, 8, 0.72);
+ }
+-- 
+2.43.0
+
